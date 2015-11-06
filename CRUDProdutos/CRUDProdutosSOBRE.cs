@@ -10,11 +10,18 @@ using System.Windows.Forms;
 
 namespace CRUDProdutos
 {
-    public partial class Form1 : Form
+    public partial class CRUDProdutosSOBRE : Form
     {
-        public Form1()
+        public CRUDProdutosSOBRE()
         {
             InitializeComponent();
+        }
+
+        private void CRUDProdutosSOBRE_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            CRUDProdutosUIL uil = new CRUDProdutosUIL();
+            uil.Show();
+            this.Visible = false;
         }
     }
 }
