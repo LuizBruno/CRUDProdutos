@@ -33,11 +33,17 @@ namespace CRUDProdutos
             strSQL.Parameters.AddWithValue("@fabricante", CRUDProdutos.getFabricante());
             strSQL.Parameters.AddWithValue("@valor", CRUDProdutos.getValor());            
             strSQL.CommandType = System.Data.CommandType.StoredProcedure;
-
-            strSQL.ExecuteNonQuery();
-
-            desconecta();
-
+            try {
+                strSQL.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Erro.setMsg("Erro: " + e);
+                return;
+            }
+            finally {
+                desconecta();
+            }
         }
 
         public static void deletarProduto()
@@ -46,11 +52,19 @@ namespace CRUDProdutos
             strSQL = new SqlCommand("stpDeletarProduto", conn);
             strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
             strSQL.CommandType = System.Data.CommandType.StoredProcedure;
-
-            strSQL.ExecuteNonQuery();
-
-            desconecta();
-
+            try
+            {
+                strSQL.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Erro.setMsg("Erro: " + e);
+                return;
+            }
+            finally
+            {
+                desconecta();
+            }
         }
 
         public static void inserirProduto()
@@ -61,11 +75,19 @@ namespace CRUDProdutos
             strSQL.Parameters.AddWithValue("@fabricante", CRUDProdutos.getFabricante());
             strSQL.Parameters.AddWithValue("@valor", CRUDProdutos.getValor());            
             strSQL.CommandType = System.Data.CommandType.StoredProcedure;
-
-            strSQL.ExecuteNonQuery();
-
-            desconecta();
-
+            try
+            {
+                strSQL.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Erro.setMsg("Erro: " + e);
+                return;
+            }
+            finally
+            {
+                desconecta();
+            }
         }
 
         public static void consultarProduto()
@@ -74,34 +96,55 @@ namespace CRUDProdutos
             strSQL = new SqlCommand("stpConsultarProduto", conn);
             strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
             strSQL.CommandType = System.Data.CommandType.StoredProcedure;
-
-            result = strSQL.ExecuteReader();
-            Erro.setErro(false);
-            if (result.Read())
+            try
             {
-                CRUDProdutos.setCodigoProd(result[0].ToString());
-                CRUDProdutos.setNome(result[1].ToString());
-                CRUDProdutos.setFabricante(result[2].ToString());
-                CRUDProdutos.setValor(result[3].ToString());                
+                result = strSQL.ExecuteReader();
+                Erro.setErro(false);
+                if (result.Read())
+                {
+                    CRUDProdutos.setCodigoProd(result[0].ToString());
+                    CRUDProdutos.setNome(result[1].ToString());
+                    CRUDProdutos.setFabricante(result[2].ToString());
+                    CRUDProdutos.setValor(result[3].ToString());
+                }
+                else
+                {
+                    Erro.setMsg("Produto nao cadastrado");
+                    return;
+                }
             }
-            else
+            catch (Exception e)
             {
-                Erro.setMsg("Produto nao cadastrado");
+                Erro.setMsg("Erro: " + e);
+                return;
             }
-            desconecta();
+            finally
+            {
+                desconecta();
+            }
         }
 
         public static void alterarEstoque()
         {
             conecta();
             strSQL = new SqlCommand("stpAlterarEstoque", conn);
-            strSQL.Parameters.AddWithValue("@codigoprod", CRUDProdutos.getCodigoProd());
+            strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoEst());
+            strSQL.Parameters.AddWithValue("@codigoprod", CRUDProdutos.getCodigoProd());            
             strSQL.Parameters.AddWithValue("@quantidade", CRUDProdutos.getQuantidade());            
             strSQL.CommandType = System.Data.CommandType.StoredProcedure;
-
-            strSQL.ExecuteNonQuery();
-
-            desconecta();
+            try
+            {
+                strSQL.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Erro.setMsg("Erro: " + e);
+                return;
+            }
+            finally
+            {
+                desconecta();
+            }
 
         }
 
@@ -111,10 +154,19 @@ namespace CRUDProdutos
             strSQL = new SqlCommand("stpDeletarEstoque", conn);
             strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoEst());
             strSQL.CommandType = System.Data.CommandType.StoredProcedure;
-
-            strSQL.ExecuteNonQuery();
-
-            desconecta();
+            try
+            {
+                strSQL.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Erro.setMsg("Erro: " + e);
+                return;
+            }
+            finally
+            {
+                desconecta();
+            }
 
         }
 
@@ -125,11 +177,19 @@ namespace CRUDProdutos
             strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
             strSQL.Parameters.AddWithValue("@quantidade", CRUDProdutos.getQuantidade());
             strSQL.CommandType = System.Data.CommandType.StoredProcedure;
-
-            strSQL.ExecuteNonQuery();
-
-            desconecta();
-
+            try
+            {
+                strSQL.ExecuteNonQuery();
+            }
+            catch
+            {
+                Erro.setMsg("Não há produto cadastrado com esse codigo");
+                return;
+            }
+            finally
+            {
+                desconecta();
+            }
         }
 
         public static void consultarEstoque()
@@ -138,20 +198,31 @@ namespace CRUDProdutos
             strSQL = new SqlCommand("stpConsultarEstoque", conn);
             strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoEst());
             strSQL.CommandType = System.Data.CommandType.StoredProcedure;
-
-            result = strSQL.ExecuteReader();
-            Erro.setErro(false);
-            if (result.Read())
+            try
             {
-                CRUDProdutos.setCodigoEst(result[0].ToString());
-                CRUDProdutos.setCodigoProd(result[1].ToString());
-                CRUDProdutos.setQuantidade(result[2].ToString());                
+                result = strSQL.ExecuteReader();
+                Erro.setErro(false);
+                if (result.Read())
+                {
+                    CRUDProdutos.setCodigoEst(result[0].ToString());
+                    CRUDProdutos.setCodigoProd(result[1].ToString());
+                    CRUDProdutos.setQuantidade(result[2].ToString());
+                }
+                else
+                {
+                    Erro.setMsg("Produto nao cadastrado em estoque");
+                    return;
+                }
             }
-            else
+            catch (Exception e)
             {
-                Erro.setMsg("Produto nao cadastrado em estoque");
+                Erro.setMsg("Erro: " + e);
+                return;
             }
-            desconecta();
+            finally
+            {
+                desconecta();
+            }
         }
     }
 }

@@ -8,13 +8,22 @@ namespace CRUDProdutos
 {
     class CRUDProdutosBLL
     {
-        public static void validaCodigo()
+        public static void validaCodigoProd()
         {
             Erro.setErro(false);
             if (CRUDProdutos.getCodigoProd().Equals(""))
             {
-                Erro.setMsg("O codigo é de preenchimento obrigatorio!");
+                Erro.setMsg("O codigo está vazio!");
                 return;
+            }
+        }
+
+        public static void validaCodigoEst()
+        {
+            Erro.setErro(false);
+            if (CRUDProdutos.getCodigoEst().Equals(""))
+            {
+                Erro.setMsg("O codigo está vazio!");
             }
         }
 
@@ -45,6 +54,24 @@ namespace CRUDProdutos
                 Erro.setMsg("Valor inválido!");
                 return;
             }                    
+        }
+        public static void validaDadosEstoque()
+        {
+            Erro.setErro(false);
+            if (CRUDProdutos.getQuantidade().Equals(""))
+            {
+                Erro.setMsg("A quantidade é obrigatoria!");
+                return;
+            }            
+            try
+            {
+                int.Parse(CRUDProdutos.getQuantidade());
+            }
+            catch
+            {
+                Erro.setMsg("Valor invalido");
+                return;
+            }
         }
     }
 }
