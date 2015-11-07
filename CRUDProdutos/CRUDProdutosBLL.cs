@@ -16,6 +16,15 @@ namespace CRUDProdutos
                 Erro.setMsg("O codigo está vazio!");
                 return;
             }
+            try
+            {
+                int.Parse(CRUDProdutos.getCodigoProd());
+            }
+            catch
+            {
+                Erro.setMsg("O codigo deve ser numerico");
+                return;
+            }
         }
 
         public static void validaCodigoEst()
@@ -24,6 +33,15 @@ namespace CRUDProdutos
             if (CRUDProdutos.getCodigoEst().Equals(""))
             {
                 Erro.setMsg("O codigo está vazio!");
+            }
+            try
+            {
+                int.Parse(CRUDProdutos.getCodigoEst());
+            }
+            catch
+            {
+                Erro.setMsg("O codigo deve ser numerico");
+                return;
             }
         }
 

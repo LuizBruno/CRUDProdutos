@@ -11,7 +11,7 @@ namespace CRUDProdutos
     {
         private static String strConexao = "Data Source=.\\SQLEXPRESS; Initial Catalog = Produtos; Integrated Security=True;";
         private static SqlConnection conn = new SqlConnection(strConexao);
-        private static SqlCommand strSQL;
+        private static SqlCommand strSQL;        
         private static SqlDataReader result;
 
         public static void conecta()
@@ -26,34 +26,15 @@ namespace CRUDProdutos
 
         public static void alterarProduto()
         {
-            conecta();
-            strSQL = new SqlCommand("stpAlterarProduto", conn);
-            strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
-            strSQL.Parameters.AddWithValue("@nome", CRUDProdutos.getNome());
-            strSQL.Parameters.AddWithValue("@fabricante", CRUDProdutos.getFabricante());
-            strSQL.Parameters.AddWithValue("@valor", CRUDProdutos.getValor());            
-            strSQL.CommandType = System.Data.CommandType.StoredProcedure;
-            try {
-                strSQL.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                Erro.setMsg("Erro: " + e);
-                return;
-            }
-            finally {
-                desconecta();
-            }
-        }
-
-        public static void deletarProduto()
-        {
-            conecta();
-            strSQL = new SqlCommand("stpDeletarProduto", conn);
-            strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
-            strSQL.CommandType = System.Data.CommandType.StoredProcedure;
+            conecta();            
             try
             {
+                strSQL = new SqlCommand("stpAlterarProduto", conn);
+                strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
+                strSQL.Parameters.AddWithValue("@nome", CRUDProdutos.getNome());
+                strSQL.Parameters.AddWithValue("@fabricante", CRUDProdutos.getFabricante());
+                strSQL.Parameters.AddWithValue("@valor", CRUDProdutos.getValor());
+                strSQL.CommandType = System.Data.CommandType.StoredProcedure;
                 strSQL.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -67,16 +48,37 @@ namespace CRUDProdutos
             }
         }
 
-        public static void inserirProduto()
+        public static void deletarProduto()
         {
-            conecta();
-            strSQL = new SqlCommand("stpInserirProduto", conn);
-            strSQL.Parameters.AddWithValue("@nome", CRUDProdutos.getNome());
-            strSQL.Parameters.AddWithValue("@fabricante", CRUDProdutos.getFabricante());
-            strSQL.Parameters.AddWithValue("@valor", CRUDProdutos.getValor());            
-            strSQL.CommandType = System.Data.CommandType.StoredProcedure;
+            conecta();            
             try
             {
+                strSQL = new SqlCommand("stpDeletarProduto", conn);
+                strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
+                strSQL.CommandType = System.Data.CommandType.StoredProcedure;
+                strSQL.ExecuteNonQuery();
+            }
+            catch(Exception e)
+            {
+                Erro.setMsg("Erro: " + e);
+                return;
+            }
+            finally
+            {
+                desconecta();
+            }
+        }
+
+        public static void inserirProduto()
+        {
+            conecta();            
+            try
+            {
+                strSQL = new SqlCommand("stpInserirProduto", conn);
+                strSQL.Parameters.AddWithValue("@nome", CRUDProdutos.getNome());
+                strSQL.Parameters.AddWithValue("@fabricante", CRUDProdutos.getFabricante());
+                strSQL.Parameters.AddWithValue("@valor", CRUDProdutos.getValor());
+                strSQL.CommandType = System.Data.CommandType.StoredProcedure;
                 strSQL.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -92,12 +94,12 @@ namespace CRUDProdutos
 
         public static void consultarProduto()
         {
-            conecta();
-            strSQL = new SqlCommand("stpConsultarProduto", conn);
-            strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
-            strSQL.CommandType = System.Data.CommandType.StoredProcedure;
+            conecta();           
             try
             {
+                strSQL = new SqlCommand("stpConsultarProduto", conn);
+                strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
+                strSQL.CommandType = System.Data.CommandType.StoredProcedure;
                 result = strSQL.ExecuteReader();
                 Erro.setErro(false);
                 if (result.Read())
@@ -126,14 +128,14 @@ namespace CRUDProdutos
 
         public static void alterarEstoque()
         {
-            conecta();
-            strSQL = new SqlCommand("stpAlterarEstoque", conn);
-            strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoEst());
-            strSQL.Parameters.AddWithValue("@codigoprod", CRUDProdutos.getCodigoProd());            
-            strSQL.Parameters.AddWithValue("@quantidade", CRUDProdutos.getQuantidade());            
-            strSQL.CommandType = System.Data.CommandType.StoredProcedure;
+            conecta();            
             try
             {
+                strSQL = new SqlCommand("stpAlterarEstoque", conn);
+                strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoEst());
+                strSQL.Parameters.AddWithValue("@codigoprod", CRUDProdutos.getCodigoProd());
+                strSQL.Parameters.AddWithValue("@quantidade", CRUDProdutos.getQuantidade());
+                strSQL.CommandType = System.Data.CommandType.StoredProcedure;
                 strSQL.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -151,11 +153,11 @@ namespace CRUDProdutos
         public static void deletarEstoque()
         {
             conecta();
-            strSQL = new SqlCommand("stpDeletarEstoque", conn);
-            strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoEst());
-            strSQL.CommandType = System.Data.CommandType.StoredProcedure;
             try
-            {
+            {                
+                strSQL = new SqlCommand("stpDeletarEstoque", conn);
+                strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoEst());
+                strSQL.CommandType = System.Data.CommandType.StoredProcedure;
                 strSQL.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -172,13 +174,13 @@ namespace CRUDProdutos
 
         public static void inserirEstoque()
         {
-            conecta();
-            strSQL = new SqlCommand("stpInserirEstoque", conn);
-            strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
-            strSQL.Parameters.AddWithValue("@quantidade", CRUDProdutos.getQuantidade());
-            strSQL.CommandType = System.Data.CommandType.StoredProcedure;
+            conecta();            
             try
             {
+                strSQL = new SqlCommand("stpInserirEstoque", conn);
+                strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
+                strSQL.Parameters.AddWithValue("@quantidade", CRUDProdutos.getQuantidade());
+                strSQL.CommandType = System.Data.CommandType.StoredProcedure;
                 strSQL.ExecuteNonQuery();
             }
             catch
@@ -194,12 +196,12 @@ namespace CRUDProdutos
 
         public static void consultarEstoque()
         {
-            conecta();
-            strSQL = new SqlCommand("stpConsultarEstoque", conn);
-            strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoEst());
-            strSQL.CommandType = System.Data.CommandType.StoredProcedure;
+            conecta();            
             try
             {
+                strSQL = new SqlCommand("stpConsultarEstoque", conn);
+                strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoEst());
+                strSQL.CommandType = System.Data.CommandType.StoredProcedure;
                 result = strSQL.ExecuteReader();
                 Erro.setErro(false);
                 if (result.Read())
