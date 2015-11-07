@@ -11,7 +11,7 @@ namespace CRUDProdutos
     {
         private static String strConexao = "Data Source=.\\SQLEXPRESS; Initial Catalog = Produtos; Integrated Security=True;";
         private static SqlConnection conn = new SqlConnection(strConexao);
-        private static SqlCommand strSQL;        
+        private static SqlCommand strSQL;
         private static SqlDataReader result;
 
         public static void conecta()
@@ -26,7 +26,8 @@ namespace CRUDProdutos
 
         public static void alterarProduto()
         {
-            conecta();            
+            conecta();
+            Erro.setErro(false);
             try
             {
                 strSQL = new SqlCommand("stpAlterarProduto", conn);
@@ -50,7 +51,8 @@ namespace CRUDProdutos
 
         public static void deletarProduto()
         {
-            conecta();            
+            conecta();
+            Erro.setErro(false);
             try
             {
                 strSQL = new SqlCommand("stpDeletarProduto", conn);
@@ -58,7 +60,7 @@ namespace CRUDProdutos
                 strSQL.CommandType = System.Data.CommandType.StoredProcedure;
                 strSQL.ExecuteNonQuery();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Erro.setMsg("Erro: " + e);
                 return;
@@ -71,7 +73,8 @@ namespace CRUDProdutos
 
         public static void inserirProduto()
         {
-            conecta();            
+            conecta();
+            Erro.setErro(false);
             try
             {
                 strSQL = new SqlCommand("stpInserirProduto", conn);
@@ -94,7 +97,8 @@ namespace CRUDProdutos
 
         public static void consultarProduto()
         {
-            conecta();           
+            conecta();
+            Erro.setErro(false);
             try
             {
                 strSQL = new SqlCommand("stpConsultarProduto", conn);
@@ -128,7 +132,8 @@ namespace CRUDProdutos
 
         public static void alterarEstoque()
         {
-            conecta();            
+            conecta();
+            Erro.setErro(false);
             try
             {
                 strSQL = new SqlCommand("stpAlterarEstoque", conn);
@@ -147,14 +152,14 @@ namespace CRUDProdutos
             {
                 desconecta();
             }
-
         }
 
         public static void deletarEstoque()
         {
             conecta();
+            Erro.setErro(false);
             try
-            {                
+            {
                 strSQL = new SqlCommand("stpDeletarEstoque", conn);
                 strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoEst());
                 strSQL.CommandType = System.Data.CommandType.StoredProcedure;
@@ -169,19 +174,23 @@ namespace CRUDProdutos
             {
                 desconecta();
             }
-
         }
 
         public static void inserirEstoque()
         {
-            conecta();            
+            conecta();
+            Erro.setErro(false);
             try
             {
                 strSQL = new SqlCommand("stpInserirEstoque", conn);
                 strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
                 strSQL.Parameters.AddWithValue("@quantidade", CRUDProdutos.getQuantidade());
-                strSQL.CommandType = System.Data.CommandType.StoredProcedure;
-                strSQL.ExecuteNonQuery();
+                strSQL.CommandType = System.Data.CommandType.StoredProcedure;                
+                if(strSQL.ExecuteNonQuery().Equals(0))
+                {
+                    Erro.setErro(true);
+                    return;
+                }
             }
             catch
             {
@@ -196,7 +205,8 @@ namespace CRUDProdutos
 
         public static void consultarEstoque()
         {
-            conecta();            
+            conecta();
+            Erro.setErro(false);
             try
             {
                 strSQL = new SqlCommand("stpConsultarEstoque", conn);

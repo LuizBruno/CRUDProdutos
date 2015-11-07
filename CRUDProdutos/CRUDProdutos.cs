@@ -19,7 +19,7 @@ namespace CRUDProdutos
         public static void setCodigoEst(string _codigoEst) { CodigoEst = _codigoEst; }
         public static void setNome(string _nome) { Nome = _nome; }
         public static void setFabricante(string _fabricante) { Fabricante = _fabricante; }
-        public static void setValor(string _valor) { Valor = _valor; }
+        public static void setValor(string _valor) {  Valor = _valor; }
         public static void setQuantidade(string _quantidade) { Quantidade = _quantidade; }
         
         public static string getCodigoProd() { return CodigoProd; }
