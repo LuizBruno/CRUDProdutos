@@ -185,12 +185,8 @@ namespace CRUDProdutos
                 strSQL = new SqlCommand("stpInserirEstoque", conn);
                 strSQL.Parameters.AddWithValue("@codigo", CRUDProdutos.getCodigoProd());
                 strSQL.Parameters.AddWithValue("@quantidade", CRUDProdutos.getQuantidade());
-                strSQL.CommandType = System.Data.CommandType.StoredProcedure;                
-                if(strSQL.ExecuteNonQuery().Equals(0))
-                {
-                    Erro.setErro(true);
-                    return;
-                }
+                strSQL.CommandType = System.Data.CommandType.StoredProcedure;            
+                strSQL.ExecuteNonQuery();
             }
             catch
             {
